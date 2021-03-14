@@ -3,17 +3,20 @@ const mongoose = require("mongoose");
 
 // importing the router
 const router = require("./routes/router");
+// importing the grocery item model
 const Item = require("./models/GroceryItem");
 
 const PORT = 5000,
-  url = //"mongodb://localhost/groceries";
-    "mongodb+srv://rahit:simplePass@clusterrm.mqtgg.mongodb.net/groceries?retryWrites=true&w=majority";
+  url = "mongodb://localhost:27017/groceries";
+//"mongodb+srv://rahit:simplePass@clusterrm.mqtgg.mongodb.net/groceries?retryWrites=true&w=majority";
 
+// function to check whether itemlist is empty or not
 const isDatabaseEmpty = async () => {
   const items = await Item.find({});
   return !items.length;
 };
 
+// function to populate the database with some dummy items
 const populateDatabase = async () => {
   const dummyItems = require("./dummyItems.json");
   try {
@@ -29,6 +32,7 @@ const app = express();
 
 app.use(express.json()); // parses the incoming json data and then calls next() to pass on the control to the next middleware
 
+// setting the right CORS headers
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
@@ -39,8 +43,9 @@ app.use((req, res, next) => {
 // using modular routes
 app.use("/grocery", router);
 
+// in case no endpoint mathches
 app.use((req, res) => {
-  res.status(404).json({ message: "page not found!" });
+  res.status(404).json({ message: "invalid endpoint!" });
 });
 
 mongoose

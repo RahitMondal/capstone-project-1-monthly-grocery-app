@@ -11,8 +11,9 @@ const ListItem = ({ item, updateItem, deleteItem }) => {
           onClick={() => {
             updateItem(_id);
           }}
+          disabled={isPurchased}
         >
-          Purchased
+          {isPurchased ? "Purchased" : "Purchase"}
         </button>
         <button
           className="delete-btn"

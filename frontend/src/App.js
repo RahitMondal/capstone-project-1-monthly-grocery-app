@@ -22,19 +22,16 @@ function App() {
     try {
       const response = await fetch("http://localhost:5000/grocery/getAll");
       const data = await response.json();
+      if (!Array.isArray(data)) throw new Error("something went wrong!");
       setItemsArray(data);
       setIsLoading(false);
     } catch (error) {
-      setStatus("Couldn't fetch data!");
+      setStatus("Couldn't fetch data! Maybe backend server is down");
       console.log(error.message);
     }
   };
 
   const postItem = async (groceryItem) => {
-    if (!isNaN(groceryItem)) {
-      alert("Number as item name not allowed!");
-      return;
-    }
     setIsLoading(true);
     try {
       const response = await fetch("http://localhost:5000/grocery/add", {
@@ -44,9 +41,14 @@ function App() {
       });
       const data = await response.json();
       console.log(data);
+      if (data.result !== "success") {
+        setStatus(data.result);
+        setTimeout(getItems, 3000);
+        return;
+      }
       getItems();
     } catch (error) {
-      setStatus("Couldn't post data!");
+      setStatus("Couldn't post data! Maybe backend server is down");
       console.log(error.message);
     }
   };
@@ -54,13 +56,24 @@ function App() {
   const updateItem = async (_id) => {
     setIsLoading(true);
     try {
-      await fetch("http://localhost:5000/grocery/updatePurchaseStatus", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _id, isPurchased: true }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/grocery/updatePurchaseStatus",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ _id, isPurchased: true }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.result !== "success") {
+        setStatus(data.result);
+        setTimeout(getItems, 3000);
+        return;
+      }
       getItems();
     } catch (error) {
+      setStatus("Couldn't update data! Maybe backend server is down");
       console.log(error.message);
     }
   };
@@ -68,19 +81,34 @@ function App() {
   const deleteItem = async (_id) => {
     setIsLoading(true);
     try {
-      await fetch("http://localhost:5000/grocery/deleteGroceryItem", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _id }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/grocery/deleteGroceryItem",
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ _id }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.result !== "success") {
+        setStatus(data.result);
+        setTimeout(getItems, 3000);
+        return;
+      }
       getItems();
     } catch (error) {
+      setStatus("Couldn't delete data! Maybe backend server is down");
       console.log(error.message);
     }
   };
 
   const keyPressHandler = (event) => {
     if (event.keyCode === 13) {
+      if (!isNaN(event.target.value)) {
+        alert("Please enter a valid item name!");
+        return;
+      }
       postItem(event.target.value);
     }
   };
@@ -94,7 +122,7 @@ function App() {
       <TextInput keyPressHandler={keyPressHandler} />
       <div className="list-body">
         {isLoading ? (
-          <p>{status}</p>
+          <h2>{status}</h2>
         ) : (
           itemsArray.map((item) => {
             return (

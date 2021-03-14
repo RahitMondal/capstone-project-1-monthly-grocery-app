@@ -3,11 +3,12 @@ const Item = require("../models/GroceryItem");
 
 const addItem = async (req, res) => {
   let { groceryItem, isPurchased } = req.body; // extracting the values from request body by object destructurng
-  // capitalizing the string before saving into the database
+  // rejecting any number input
   if (!isNaN(groceryItem)) {
     res.json({ message: "number not allowed as input" });
     return;
   }
+  // capitalizing the string before saving into the database
   groceryItem =
     groceryItem[0].toUpperCase() + groceryItem.substring(1).toLowerCase();
   const item = new Item({ groceryItem, isPurchased }); // creating new item using the model with given vallues

@@ -1,6 +1,6 @@
 const express = require("express");
 
-// importing the controller exoports in controller variable
+// importing the controller exoports
 const controller = require("../contorllers/controller");
 
 // creating an instance of the express.Router class which is a middleware itself
