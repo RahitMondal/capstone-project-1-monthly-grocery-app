@@ -1,0 +1,29 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.app-header {
+  margin: 0;
+  width: 100%;
+  min-width: 20rem;
+  background-color: #282c34;
+  color: white;
+  padding: 0.5rem;
+}
+
+.list-header {
+  width: 100%;
+  margin-top: 5rem;
+}
+
+.list-body {
+  width: 100%;
+  max-width: 30rem;
+  min-width: 20rem;
+  padding: 0rem 0.3rem;
+  background-color: #eee;
+  border-radius: 0.2rem;
+}

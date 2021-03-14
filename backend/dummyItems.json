@@ -1,0 +1,14 @@
+[
+    {
+        "groceryItem": "Paneer 1kg",
+        "isPurchased": false
+    },
+    {
+        "groceryItem": "Wheat 2kg",
+        "isPurchased": false
+    },
+    {
+        "groceryItem": "Rice 5kg",
+        "isPurchased": false
+    }
+]

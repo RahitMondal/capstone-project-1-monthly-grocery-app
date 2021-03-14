@@ -1,0 +1,42 @@
+.list-item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  text-align: left;
+}
+
+.btn-wrapper {
+  display: flex;
+  min-width: 10rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+button {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.purchased-btn {
+  width: 6rem;
+  margin-right: 0.5rem;
+}
+
+.delete-btn {
+  width: 2rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
